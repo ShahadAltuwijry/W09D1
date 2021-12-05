@@ -1,0 +1,34 @@
+.taskDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+}
+
+.tasksP {
+  width: 50%;
+}
+
+.taskDone {
+  width: 50%;
+  color: rgb(80, 80, 80);
+  text-decoration: line-through;
+}
+
+.btnsDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 9%;
+}
+
+.btn {
+  width: 30px;
+}
+
+.iconImg {
+  width: 20px;
+}
+
+.outBtn {
+  margin-top: 60px;
+}

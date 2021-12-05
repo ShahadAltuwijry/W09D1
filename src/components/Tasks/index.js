@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./style.css";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -27,7 +28,7 @@ const Tasks = () => {
 
   const getTasks = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/Tasks`, {
+      const res = await axios.get(`${BASE_URL}/allTasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -57,7 +58,50 @@ const Tasks = () => {
       //   console.log(res);
       setTasks(res.data);
       getTasks();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const completed = async (_id) => {
+    try {
+      // eslint-disable-next-line
+      let res = await axios.delete(
+        `${BASE_URL}/completed/${_id}`
+        //   , {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+      );
+
+      getTasks();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const delTask = async (_id) => {
+    try {
+      // eslint-disable-next-line
+      let res = await axios.delete(
+        `${BASE_URL}/delete/${_id}`
+        //   , {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+      );
+
+      getTasks();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
   //here we get tasks by registered user id that i already placed in local storage
@@ -87,16 +131,50 @@ const Tasks = () => {
                 <button type="submit">Add</button>
               </form>
               {tasks.length > 0
-                ? tasks.map((task) => {
+                ? tasks.map((task, i) => {
                     return (
-                      <div key={task._id}>
-                        <p key={task._id}>{task.name}</p>
+                      <div key={task.name} className="taskDiv">
+                        <p
+                          className={!task.isCompleted ? "tasksP" : "taskDone"}
+                          key={task._id}
+                        >
+                          {task.name}
+                        </p>
+                        <div className="btnsDiv">
+                          <button
+                            key={i + 3}
+                            className="btn"
+                            id="delBtn"
+                            onClick={() => delTask(task._id)}
+                          >
+                            <img
+                              className="iconImg"
+                              src="https://img.icons8.com/small/32/000000/filled-trash.png"
+                              alt="icon"
+                            />
+                          </button>
+                          <button
+                            key={i}
+                            className="btn"
+                            id="checkBtn"
+                            onClick={() => completed(task._id)}
+                          >
+                            <img
+                              className="iconImg"
+                              src="https://img.icons8.com/ios-glyphs/30/000000/check-all.png"
+                              alt="icon"
+                            />
+                          </button>
+                        </div>
                       </div>
                     );
                   })
                 : ""}
             </>
           )}
+          <button className="outBtn" onClick={logOut}>
+            log out
+          </button>
         </div>
       )}
     </div>

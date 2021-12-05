@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Tasks from "./components/Tasks";
 import Landing from "./components/Landing";
+import UserData from "./components/UserData";
 // import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <div className="App">
+      <UserData />
       <Routes>
         <Route exact path="/" element={<Landing />} />
         <Route exact path="/login" element={<Login />} />
