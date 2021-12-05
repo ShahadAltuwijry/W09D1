@@ -96,13 +96,12 @@ const Tasks = () => {
   const completed = async (_id) => {
     try {
       // eslint-disable-next-line
-      let res1 = await axios.put(`${BASE_URL}/check/${_id}`, {
+      let res = await axios.put(`${BASE_URL}/check/${_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log(res1);
       getTasks();
       getAllUsersTasks();
     } catch (error) {
