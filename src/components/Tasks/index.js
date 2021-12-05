@@ -5,17 +5,23 @@ import "./style.css";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
+  const [userTasks, setUserTasks] = useState([]);
   const [id, setId] = useState("");
-  const [token, setToken] = useState([]);
+  const [role, setRole] = useState("");
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const addToken = async () => {
     const userLogged = await localStorage.getItem("user");
-    const id = await localStorage.getItem("id");
     setToken(JSON.parse(userLogged));
+
+    const id = await localStorage.getItem("id");
     setId(JSON.parse(id));
+
+    const role = localStorage.getItem("role");
+    setRole(JSON.parse(role));
   };
 
   useEffect(() => {
@@ -39,8 +45,26 @@ const Tasks = () => {
     }
   };
 
+  //to get all users tasks for admins only------------------------
+  const getAllUsersTasks = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/adminGet`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      //   console.log(res.data);
+      setUserTasks(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //------------------------------------------------
+
+  //   console.log(userTasks);
+
   useEffect(() => {
     getTasks();
+    getAllUsersTasks();
     // eslint-disable-next-line
   }, [token]);
 
@@ -58,6 +82,7 @@ const Tasks = () => {
       //   console.log(res);
       setTasks(res.data);
       getTasks();
+      getAllUsersTasks();
     } catch (error) {
       console.log(error.message);
     }
@@ -74,6 +99,7 @@ const Tasks = () => {
 
       console.log(res1);
       getTasks();
+      getAllUsersTasks();
     } catch (error) {
       console.log(error.message);
     }
@@ -88,6 +114,7 @@ const Tasks = () => {
         },
       });
       getTasks();
+      getAllUsersTasks();
     } catch (error) {
       console.log(error.message);
     }
@@ -128,46 +155,113 @@ const Tasks = () => {
                 />
                 <button type="submit">Add</button>
               </form>
-              {tasks.length > 0
-                ? tasks.map((task, i) => {
-                    return (
-                      <div key={task.name} className="taskDiv">
-                        <p
-                          className={!task.isCompleted ? "tasksP" : "taskDone"}
-                          key={task._id}
-                        >
-                          {task.name}
-                        </p>
-                        <div className="btnsDiv">
-                          <button
-                            key={i + 3}
-                            className="btn"
-                            id="delBtn"
-                            onClick={() => delTask(task._id)}
-                          >
-                            <img
-                              className="iconImg"
-                              src="https://img.icons8.com/small/32/000000/filled-trash.png"
-                              alt="icon"
-                            />
-                          </button>
-                          <button
-                            key={i}
-                            className="btn"
-                            id="checkBtn"
-                            onClick={() => completed(task._id)}
-                          >
-                            <img
-                              className="iconImg"
-                              src="https://img.icons8.com/ios-glyphs/30/000000/check-all.png"
-                              alt="icon"
-                            />
-                          </button>
+              {role === "61a60b6d52ebd90581f0ff04" ? (
+                <div>
+                  {!userTasks ? (
+                    <h2>no tasks yet, try and add some!</h2>
+                  ) : (
+                    userTasks.map((task, i) => {
+                      return (
+                        <div key={task.name} className="taskDiv">
+                          <>
+                            <p
+                              className={
+                                !task.isCompleted ? "tasksP" : "taskDone"
+                              }
+                              key={task._id}
+                            >
+                              {task.name}
+                            </p>
+                            <p
+                              style={{
+                                fontSize: "10px",
+                                marginLeft: "-180px",
+                                color: "gray",
+                              }}
+                            >
+                              user id:
+                              {task.userId}
+                            </p>
+                          </>
+                          <div className="btnsDiv">
+                            <button
+                              key={i + 3}
+                              className="btn"
+                              id="delBtn"
+                              onClick={() => delTask(task._id)}
+                            >
+                              <img
+                                className="iconImg"
+                                src="https://img.icons8.com/small/32/000000/filled-trash.png"
+                                alt="icon"
+                              />
+                            </button>
+                            <button
+                              key={i}
+                              className="btn"
+                              id="checkBtn"
+                              onClick={() => completed(task._id)}
+                            >
+                              <img
+                                className="iconImg"
+                                src="https://img.icons8.com/ios-glyphs/30/000000/check-all.png"
+                                alt="icon"
+                              />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })
-                : ""}
+                      );
+                    })
+                  )}
+                </div>
+              ) : (
+                <>
+                  {tasks.length > 0 ? (
+                    tasks.map((task, i) => {
+                      return (
+                        <div key={task.name} className="taskDiv">
+                          <p
+                            className={
+                              !task.isCompleted ? "tasksP" : "taskDone"
+                            }
+                            key={task._id}
+                          >
+                            {task.name}
+                          </p>
+                          <div className="btnsDiv">
+                            <button
+                              key={i + 3}
+                              className="btn"
+                              id="delBtn"
+                              onClick={() => delTask(task._id)}
+                            >
+                              <img
+                                className="iconImg"
+                                src="https://img.icons8.com/small/32/000000/filled-trash.png"
+                                alt="icon"
+                              />
+                            </button>
+                            <button
+                              key={i}
+                              className="btn"
+                              id="checkBtn"
+                              onClick={() => completed(task._id)}
+                            >
+                              <img
+                                className="iconImg"
+                                src="https://img.icons8.com/ios-glyphs/30/000000/check-all.png"
+                                alt="icon"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <h2>no tasks yet, try and add some!</h2>
+                  )}
+                </>
+              )}
             </>
           )}
           <button className="outBtn" onClick={logOut}>

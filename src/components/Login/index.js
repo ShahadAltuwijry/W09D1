@@ -32,6 +32,7 @@ const Login = () => {
     <div className="logMainDiv">
       <h1> Log in</h1>
 
+
       <input
         type="email"
         placeholder="email"

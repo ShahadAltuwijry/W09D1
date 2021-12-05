@@ -14,7 +14,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  console.log(BASE_URL);
+  //   console.log(BASE_URL);
 
   const getUsers = async () => {
     const user = await axios.get(`${BASE_URL}/users`);
@@ -83,12 +83,14 @@ const Register = () => {
         <h1> Registration</h1>
 
         <input
+          required
           type="email"
           name="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          required
           type="password"
           name="password"
           placeholder="password"

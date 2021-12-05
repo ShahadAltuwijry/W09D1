@@ -10,7 +10,7 @@ const UserData = () => {
   const [get, setGet] = useState(false);
   const [getTask, setGetTask] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
-  const [userTasks, setUserTasks] = useState([]);
+  const [userTasks, setUserTasks] = useState([{}]);
   const navigate = useNavigate();
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -56,17 +56,25 @@ const UserData = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(res.data);
-      setUserTasks(res.data);
+      for (let i = 0; i < res.data.length; i++) {
+        // console.log(res.data[i].name);
+        setUserTasks(res.data[i].name);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  //   console.log(userTasks);
 
   //to toggle the all users button
   const getting = () => {
     setGet(!get);
-    console.log(get);
+    console.log(get, "get");
+  };
+
+  const gettingTask = () => {
+    setGetTask(!getTask);
+    console.log(getTask, "get task");
   };
 
   //log out button
@@ -75,10 +83,33 @@ const UserData = () => {
     navigate("/");
   };
 
+  const taskPage = () => {
+    navigate("/tasks");
+  };
+
   return (
-    <div className="userDataDiv">
-      <h1>user Email</h1>
-      <h2>{userEmail}</h2>
+    <div
+      className="userDataDiv"
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h1>user Page</h1>
+      <div
+        style={{
+          width: "43%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <h2 style={{ color: "black", fontSize: "30px" }}>user email: </h2>
+        <h2 style={{ color: "gray" }}>{userEmail}</h2>
+      </div>
       {role === "61a60b6d52ebd90581f0ff04" ? (
         <div className="adminDiv">
           <h3 className="roleH">Admin</h3>
@@ -92,26 +123,31 @@ const UserData = () => {
                   {allUsers.map((user, i) => (
                     <li key={i} className="userMail">
                       {user.email}
-                      <button onClick={() => getUserTasks(user._id)}>
+                      {/* <button
+                        key={i + 2}
+                        onClick={() => {
+                          getUserTasks(user._id);
+                          gettingTask();
+                        }}
+                      >
                         user tasks
-                      </button>
-                      {/* {userTasks ? (
-                        <div className="userTasks">
-                          <ul className="taskList">
-                          {userTasks.forEach((task, i) => {
-                            <p key={i} className="userTask">
-                              {task} "."
-                            </p>;
-                          })}
-                          </ul>
-                        </div>
-                      ) : (
-                        "."
-                      )} */}
+                      </button> */}
                     </li>
                   ))}
                 </ul>
-                <h2>nice!</h2>
+                {/* {getTask ? (
+                  <div className="userTasks">
+                    <ul className="taskList">
+                      {userTasks.map((ele, i) => {
+                        <li className="userTask">{ele[i]}</li>;
+                      })}
+                      <li>{userTasks}</li>
+                    </ul>
+                    <h1>here</h1>
+                  </div>
+                ) : (
+                  "no tasks shown"
+                )} */}
               </div>
             </>
           )}
@@ -119,9 +155,25 @@ const UserData = () => {
       ) : (
         <h3 className="roleH">User</h3>
       )}
-      <button className="outBtn" onClick={logOut}>
-        log out
-      </button>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          className="btn"
+          onClick={taskPage}
+          style={{ width: "90px", marginTop: "30px", marginRight: "10px" }}
+        >
+          tasks page
+        </button>
+        <button className="outBtn" onClick={logOut}>
+          log out
+        </button>
+      </div>
     </div>
   );
 };
