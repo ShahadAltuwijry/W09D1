@@ -1,0 +1,16 @@
+
+  const updateTodo = async (e, id) => {
+    e.preventDefault();
+    // console.log(id);
+    // console.log(e.target.newTaskVal.value);
+    // console.log(e.target.inCompleteOrcomplete.value);
+    try {
+      let task = e.target.newTaskVal.value;
+      let isCompleted = Boolean(e.target.inCompleteOrcomplete.value);
+      // console.log(task, isCompleted);
+      await axios.put(`${BASE_URL}/todos/${id}`, { task, isCompleted });
+      getTodos();
+    } catch (error) {
+      console.log("update todo error", error);
+    }
+  };

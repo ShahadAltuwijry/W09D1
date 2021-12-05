@@ -1,10 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import "./style.css";
+// import Swal from "sweetalert2";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-  console.log(BASE_URL);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  return <div>Login</div>;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const signIn = async (e) => {
+    e.preventDefault();
+
+    const res = await axios.post(`${BASE_URL}/login`, {
+      email: email,
+      password: password,
+    });
+    console.log(res);
+    localStorage.setItem("user", JSON.stringify(res.data.token));
+    localStorage.setItem("fullUser", JSON.stringify(res.data));
+    localStorage.setItem("id", JSON.stringify(res.data.result._id));
+    navigate("/tasks");
+  };
+
+  return (
+    <div className="logMainDiv">
+      <h1> Log in</h1>
+
+      <input
+        type="email"
+        placeholder="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={signIn}>Login</button>
+    </div>
+  );
 };
 
 export default Login;
