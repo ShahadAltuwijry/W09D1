@@ -65,12 +65,10 @@ const Tasks = () => {
 
   useEffect(() => {
     getTasks();
-    // getAllUsersTasks();
     // eslint-disable-next-line
   }, [token]);
 
   useEffect(() => {
-    // getTasks();
     getAllUsersTasks();
     // eslint-disable-next-line
   }, [token]);
@@ -121,7 +119,6 @@ const Tasks = () => {
         },
       });
       getTasks();
-      getAllUsersTasks();
     } catch (error) {
       console.log(error.message);
     }
@@ -179,10 +176,8 @@ const Tasks = () => {
                 <button type="submit">Add</button>
               </form>
               {role === "61a60b6d52ebd90581f0ff04" ? (
-                <div>
-                  {!userTasks ? (
-                    <h2>no tasks yet, try and add some!</h2>
-                  ) : (
+                <>
+                  {userTasks.length > 0 ? (
                     userTasks.map((task, i) => {
                       return (
                         <div key={task.name} className="taskDiv">
@@ -235,8 +230,10 @@ const Tasks = () => {
                         </div>
                       );
                     })
+                  ) : (
+                    <h2>no tasks yet, try and add some!</h2>
                   )}
-                </div>
+                </>
               ) : (
                 <>
                   {tasks.length > 0 ? (
