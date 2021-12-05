@@ -29,6 +29,7 @@ const Tasks = () => {
   }, []);
 
   const moving = () => {
+    // eslint-disable-next-line
     navigate("/");
   };
 
@@ -64,6 +65,12 @@ const Tasks = () => {
 
   useEffect(() => {
     getTasks();
+    // getAllUsersTasks();
+    // eslint-disable-next-line
+  }, [token]);
+
+  useEffect(() => {
+    // getTasks();
     getAllUsersTasks();
     // eslint-disable-next-line
   }, [token]);
@@ -120,12 +127,28 @@ const Tasks = () => {
     }
   };
 
+  const adminDelTask = async (_id) => {
+    try {
+      // eslint-disable-next-line
+      let res = await axios.delete(`${BASE_URL}/adminDel/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      getAllUsersTasks();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const logOut = () => {
     localStorage.clear();
+    // eslint-disable-next-line
     navigate("/");
   };
 
   const userInfo = () => {
+    // eslint-disable-next-line
     navigate("/userInfo");
   };
 
@@ -188,7 +211,7 @@ const Tasks = () => {
                               key={i + 3}
                               className="btn"
                               id="delBtn"
-                              onClick={() => delTask(task._id)}
+                              onClick={() => adminDelTask(task._id)}
                             >
                               <img
                                 className="iconImg"

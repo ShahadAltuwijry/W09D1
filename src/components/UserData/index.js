@@ -10,6 +10,7 @@ const UserData = () => {
   const [get, setGet] = useState(false);
   const [getTask, setGetTask] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+  // eslint-disable-next-line
   const [userTasks, setUserTasks] = useState([{}]);
   const navigate = useNavigate();
 
@@ -44,26 +45,27 @@ const UserData = () => {
   //   to get the users
   useEffect(() => {
     getAllUsers();
-    getUserTasks();
+    // getUserTasks();
+    // eslint-disable-next-line
   }, [role]);
 
   // console.log(allUsers);
 
   //to get all users tasks
-  const getUserTasks = async (_id) => {
-    try {
-      const res = await axios.get(`${BASE_URL}/adminget/${_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+  //   const getUserTasks = async (_id) => {
+  //     try {
+  //       const res = await axios.get(`${BASE_URL}/adminget/${_id}`, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
 
-      for (let i = 0; i < res.data.length; i++) {
-        // console.log(res.data[i].name);
-        setUserTasks(res.data[i].name);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       for (let i = 0; i < res.data.length; i++) {
+  //         // console.log(res.data[i].name);
+  //         setUserTasks(res.data[i].name);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
   //   console.log(userTasks);
 
   //to toggle the all users button
@@ -72,10 +74,10 @@ const UserData = () => {
     console.log(get, "get");
   };
 
-  const gettingTask = () => {
-    setGetTask(!getTask);
-    console.log(getTask, "get task");
-  };
+  //   const gettingTask = () => {
+  //     setGetTask(!getTask);
+  //     console.log(getTask, "get task");
+  //   };
 
   //log out button
   const logOut = () => {
