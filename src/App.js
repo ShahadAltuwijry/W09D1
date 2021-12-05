@@ -14,12 +14,12 @@ function App() {
 
   return (
     <div className="App">
-      <UserData />
       <Routes>
         <Route exact path="/" element={<Landing />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/tasks" element={<Tasks />} />
+        <Route exact path="/userInfo" element={<UserData />} />
       </Routes>
     </div>
   );

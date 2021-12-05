@@ -20,8 +20,11 @@ const Login = () => {
     });
     // console.log(res);
     localStorage.setItem("user", JSON.stringify(res.data.token));
-    localStorage.setItem("fullUser", JSON.stringify(res.data));
+    // localStorage.setItem("fullUser", JSON.stringify(res.data));
     localStorage.setItem("id", JSON.stringify(res.data.result._id));
+    localStorage.setItem("email", JSON.stringify(res.data.result.email));
+    localStorage.setItem("role", JSON.stringify(res.data.result.role));
+
     navigate("/tasks");
   };
 

@@ -66,15 +66,13 @@ const Tasks = () => {
   const completed = async (_id) => {
     try {
       // eslint-disable-next-line
-      let res = await axios.delete(
-        `${BASE_URL}/completed/${_id}`
-        //   , {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-      );
+      let res1 = await axios.put(`${BASE_URL}/check/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
+      console.log(res1);
       getTasks();
     } catch (error) {
       console.log(error.message);
@@ -84,15 +82,11 @@ const Tasks = () => {
   const delTask = async (_id) => {
     try {
       // eslint-disable-next-line
-      let res = await axios.delete(
-        `${BASE_URL}/delete/${_id}`
-        //   , {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-      );
-
+      let res = await axios.delete(`${BASE_URL}/delete/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       getTasks();
     } catch (error) {
       console.log(error.message);
@@ -102,6 +96,10 @@ const Tasks = () => {
   const logOut = () => {
     localStorage.clear();
     navigate("/");
+  };
+
+  const userInfo = () => {
+    navigate("/userInfo");
   };
 
   //here we get tasks by registered user id that i already placed in local storage
@@ -174,6 +172,9 @@ const Tasks = () => {
           )}
           <button className="outBtn" onClick={logOut}>
             log out
+          </button>
+          <button className="outBtn" onClick={userInfo}>
+            User Info
           </button>
         </div>
       )}
