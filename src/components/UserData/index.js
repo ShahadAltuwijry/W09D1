@@ -110,11 +110,11 @@ const UserData = () => {
         }}
       >
         <h2 style={{ color: "black", fontSize: "30px" }}>user email: </h2>
-        <h2 style={{ color: "gray" }}>{userEmail}</h2>
+        <h2 style={{ color: "rgba(0, 0, 0, 0.7)" }}>{userEmail}</h2>
       </div>
       {role === "61a60b6d52ebd90581f0ff04" ? (
         <div className="adminDiv">
-          <h3 className="roleH">Admin</h3>
+          <h3 className="roleH"> Admin</h3>
           <button onClick={getting}>Get All Users</button>
           {!get ? (
             ""
@@ -155,7 +155,7 @@ const UserData = () => {
           )}
         </div>
       ) : (
-        <h3 className="roleH">User</h3>
+        <h3 className="roleH"> User</h3>
       )}
       <div
         style={{
